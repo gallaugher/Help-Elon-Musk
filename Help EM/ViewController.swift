@@ -9,17 +9,36 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var rocketImage: UIImageView!
+    @IBOutlet weak var blastOffButton: UIButton!
+    
+    var imageNumber = 0
+    var numberOfImages = 5
+    var yAtStart: CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        yAtStart = rocketImage.frame.origin.y
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func rocketTapped(_ sender: UITapGestureRecognizer) {
+        imageNumber += 1
+        if imageNumber >= numberOfImages {
+            imageNumber = 0
+        }
+        
+        rocketImage.image = UIImage(named: "rocket\(imageNumber)")
     }
-
-
+    
+    @IBAction func blastOffPressed(_ sender: UIButton) {
+        if rocketImage.frame.origin.y < 0 {
+            UIView.animate(withDuration: 2, animations: { self.rocketImage.frame.origin.y = self.yAtStart })
+            blastOffButton.setTitle("Blast Off!", for: .normal)
+        } else {
+             UIView.animate(withDuration: 2, animations: { self.rocketImage.frame.origin.y = -(self.rocketImage.frame.height) })
+            blastOffButton.setTitle("Return", for: .normal)
+        }
+       
+    }
 }
 
